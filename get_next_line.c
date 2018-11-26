@@ -6,40 +6,91 @@
 /*   By: jgehin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/20 10:49:31 by jgehin            #+#    #+#             */
-/*   Updated: 2018/11/23 17:06:51 by jgehin           ###   ########.fr       */
+/*   Updated: 2018/11/26 16:58:13 by jgehin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "get_next_line.h"
+#include <stdio.h>
 
-void	ft_alloc_line(char **line, char *buff, int c, int n)
+t_glist	*ft_glst(char *s, int len, int fd)
 {
-	int		u;
-	char	*l1;
-	char	*l2;
+	t_glist		*new;
 
-	l2 = ft_memchr(buff, c, n);
-	u = l2 == NULL ? (n + 1) : (l2 - buff + 1);
-	l2 = ft_memalloc(u);
-	ft_strncpy(l2, buff, u);
-	l2[u - 1] = '\0';
-	l1 = line ? ft_strjoin(*line, l2) : l2;
-	*line = ft_strdup(l1);
+	if (!(new = (t_glist*)malloc(sizeof(*new))))
+		return (0);
+	if (!(new->str = (char*)malloc(sizeof(*s) * len)))
+		return (0);
+	ft_strncpy(new->str, s, len);
+	new->fd = fd;
+	new->next = NULL;
+	return (new);
+}
+
+void	*ft_save_in_list(char *buff, int fd, t_glist *list)
+{
+	char	*s;
+	char	*tmp;
+	int		len;
+	t_glist	*tmplst;
+
+	tmp = ft_memchr(buff, '\n', BUFF_SIZE);
+	len = tmp == NULL ? 0 : BUFF_SIZE - (tmp - buff + 1);
+	s = ft_memalloc(len);
+	ft_strncpy(s, tmp, len);
+	s[len - 1] = '\0';
+	if (!list)
+	{
+		list = ft_glst(s, len, fd);
+		return (list);
+	}
+	tmplst = list;
+	while (tmplst->fd != fd && tmplst->next != NULL)
+		tmplst = tmplst->next;
+	if (tmplst->fd == fd)
+		tmplst->str = s;
+	else
+		tmplst->next = ft_glst(s, len, fd);
+	return (list);
+}
+
+void	ft_alloc_line(char **line, char *buff)
+{
+	char	*tmp;
+	int		len;
+
+	tmp = ft_memchr(buff, '\n', BUFF_SIZE);
+	len = tmp == NULL ? (BUFF_SIZE + 1) : (tmp - buff + 1);
+	tmp = ft_memalloc(len);
+	ft_strncpy(tmp, buff, len);
+	tmp[len - 1] = '\0';
+	*line = (**line != '\0') ? ft_strjoin(*line, tmp) : ft_strdup(tmp);
 }
 
 int		get_next_line(const int fd, char **line)
 {
-	char	buff[BUFF_SIZE];
-	int		i;
-	int		u;
+	char			buff[BUFF_SIZE];
+	int				i;
+	int				u;
+	static t_glist	*list;
+	t_glist			*tmp;
 
 	i = 1;
-	line = NULL;
-	while (((u = line ? ft_strlen(*line) : 0) + BUFF_SIZE) == BUFF_SIZE * i++)
+	*line = ft_strdup("");
+	if (list)
+		tmp = list;
+	while (tmp->next)
 	{
-		read(fd, buff, BUFF_SIZE);
-		ft_alloc_line(line, buff, '\n', BUFF_SIZE);
+		if (tmp->fd == fd)
+			
+
 	}
-	return (0);
+	while (((u = **line != '\0' ? ft_strlen(*line) : 0) + BUFF_SIZE) == BUFF_SIZE * i++)
+	{
+		u = read(fd, buff, BUFF_SIZE);
+		ft_alloc_line(line, buff);
+	}
+	ft_save_in_list(buff, fd, list);
+	return (u);
 }
