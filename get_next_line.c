@@ -6,7 +6,7 @@
 /*   By: jgehin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/20 10:49:31 by jgehin            #+#    #+#             */
-/*   Updated: 2018/11/26 16:58:13 by jgehin           ###   ########.fr       */
+/*   Updated: 2018/11/26 18:54:02 by jgehin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	*ft_save_in_list(char *buff, int fd, t_glist *list)
 		tmplst->str = s;
 	else
 		tmplst->next = ft_glst(s, len, fd);
+	tmplst = tmplst->next;			//*************	  il se passe rien. pk ?
+	printf("%s\n", tmplst->str);   // *************
 	return (list);
 }
 
@@ -68,29 +70,39 @@ void	ft_alloc_line(char **line, char *buff)
 	*line = (**line != '\0') ? ft_strjoin(*line, tmp) : ft_strdup(tmp);
 }
 
+void	ft_check(char **line, t_glist *list, const int fd)
+{
+	t_glist		*tmp;
+
+	tmp = NULL;
+	if (list)
+	{
+		tmp = list;
+		while (tmp)
+		{
+			if (tmp->fd == fd)		
+				ft_alloc_line(line, tmp->str);
+			tmp = tmp->next;
+		}
+	}
+}
+
 int		get_next_line(const int fd, char **line)
 {
 	char			buff[BUFF_SIZE];
 	int				i;
 	int				u;
 	static t_glist	*list;
-	t_glist			*tmp;
+	int				res;
 
 	i = 1;
 	*line = ft_strdup("");
-	if (list)
-		tmp = list;
-	while (tmp->next)
-	{
-		if (tmp->fd == fd)
-			
-
-	}
+	ft_check(line, list, fd);
 	while (((u = **line != '\0' ? ft_strlen(*line) : 0) + BUFF_SIZE) == BUFF_SIZE * i++)
 	{
-		u = read(fd, buff, BUFF_SIZE);
+		res = read(fd, buff, BUFF_SIZE);
 		ft_alloc_line(line, buff);
 	}
 	ft_save_in_list(buff, fd, list);
-	return (u);
+	return (res);
 }
