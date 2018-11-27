@@ -6,5 +6,5 @@ loin. Je repète, aucun bonus ne sera comptabilisé si la partie obligatoire n�
 • Pouvoir gérer plusieurs descripteurs de fichiers avec votre get_next_line. Par#
 exemple, si les descripteurs de fichier 3, 4 et 5 sont accessibles en lecture.\nAlors on#
 peut appeler get_next_line#'\n' une fois sur 3, une fois sur 4, à nouveau une fois sur 3,#
-puis une fois sur 5, etc, sans perdre le fil de la lecture sur chacun des descript ###
+puis une fois sur 5, etc, sans perdre le fil de la lecture sur chacutttttn###
 
