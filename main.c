@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgehin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/20 12:16:48 by jgehin            #+#    #+#             */
-/*   Updated: 2018/11/28 14:45:23 by jgehin           ###   ########.fr       */
+/*   Created: 2018/11/30 10:58:25 by jgehin            #+#    #+#             */
+/*   Updated: 2018/11/30 10:58:34 by jgehin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		main(int ac, char **av)
 	i = 1;
 	if (ac == 8)
 		i = 1;
-		fd = open(av[1], O_RDONLY);
+	fd = open(av[1], O_RDONLY);
 	while (i == 1)
 	{
 		i = get_next_line(fd, &line);
