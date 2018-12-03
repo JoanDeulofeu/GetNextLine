@@ -6,18 +6,18 @@
 /*   By: jgehin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/20 11:29:59 by jgehin            #+#    #+#             */
-/*   Updated: 2018/11/30 19:39:52 by jgehin           ###   ########.fr       */
+/*   Updated: 2018/12/03 14:58:27 by jgehin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFF_SIZE 1
+# define BUFF_SIZE 10
 
 typedef struct		s_glist
 {
 	char			*save;
-	char			buff[BUFF_SIZE];
+	int				rem;
 	int				fd;
 	int				i;
 	struct s_glist	*next;
