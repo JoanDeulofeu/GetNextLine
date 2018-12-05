@@ -6,7 +6,7 @@
 /*   By: jgehin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/20 11:29:59 by jgehin            #+#    #+#             */
-/*   Updated: 2018/12/03 14:58:27 by jgehin           ###   ########.fr       */
+/*   Updated: 2018/12/05 10:54:41 by jgehin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,10 @@
 
 typedef struct		s_glist
 {
-	char			*save;
-	int				rem;
+	char			*tmp;
 	int				fd;
-	int				i;
 	struct s_glist	*next;
 }					t_glist;
-int		get_next_line(const int fd, char **line);
+int					get_next_line(const int fd, char **line);
 
 #endif
